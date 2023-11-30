@@ -15,14 +15,18 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # dataset path
-ori_data_dir = "/AFPILD_dataset_root"
+ori_data_dir = "../data/AFPILD_v1"
 
 # generated feat path
-afpild_fea_dir = "/AFPILD_fea_root"
+afpild_fea_dir = '../data/audio_feature'
 
 # manually create two empty directory at the start for feature saving
 gcc_cachedir = "gcc"
 spec_cachedir = "spec"
+
+if not os.path.exists(os.path.join(afpild_fea_dir, gcc_cachedir)):
+    os.makedirs(os.path.join(afpild_fea_dir, spec_cachedir))
+    os.makedirs(os.path.join(afpild_fea_dir, gcc_cachedir))
 
 cloth_train_df = pd.DataFrame(
     columns=["fea_spec", "fea_gcc", "loc_azimuth", "loc_x", "loc_y", "subject_label"])

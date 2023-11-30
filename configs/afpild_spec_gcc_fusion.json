@@ -1,0 +1,170 @@
+{
+    "n_gpu": 1,
+    "root_dir": "./",
+    "name": "AFPILD-CRNN",
+    
+    "wandb": {
+        "project": "AFPILD-CRNN",
+        "notes": "person_identification_localization.",
+        "entity": "cratial"
+    },
+
+    "datasets": {
+        "train": {
+            "data": {
+                "module": ".afpild_dataset",
+                "type": "AFPILD_spec_gcc_Dataset",
+                "kwargs": {
+                    "data_type": "train",
+                    "dataset_dir": "data/audio_feature",
+                    "spec_shift": true,
+                    "gcc_shift": true
+                }
+            }
+        },
+        "valid": {
+            "data": {
+                "module": ".afpild_dataset",
+                "type": "AFPILD_spec_gcc_Dataset",
+                "kwargs": {
+                    "data_type": "val",
+                    "dataset_dir": "data/audio_feature"
+                }
+            }
+        },
+        "test": {
+            "data": {
+                "module": ".afpild_dataset",
+                "type": "AFPILD_spec_gcc_Dataset",
+                "kwargs": {
+                    "data_type": "test",
+                    "dataset_dir": "data/audio_feature"
+                }
+            }
+        }
+    },
+
+    "data_loaders": {
+        "train": {
+            "data": {
+                "module": ".afpild_dataset",
+                "type": "BaseDataLoader",
+                "kwargs": {
+                    "validation_split": 0.3,
+                    "dataLoader_kwargs": {
+                        "batch_size": 128,
+                        "shuffle": true,
+                        "num_workers": 4
+                    }
+                }
+            }
+        },
+        "valid": {
+            "data": {
+                "module": ".afpild_dataset",
+                "type": "BaseDataLoader",
+                "kwargs": {
+                    "validation_split": 0.0,
+                    "dataLoader_kwargs": {
+                        "batch_size": 128,
+                        "shuffle": false,
+                        "num_workers": 4
+                    }
+                }
+            }
+        },
+        "test": {
+            "data": {
+                "module": ".afpild_dataset",
+                "type": "BaseDataLoader",
+                "kwargs": {
+                    "validation_split": 0.0,
+                    "dataLoader_kwargs": {
+                        "batch_size": 128,
+                        "shuffle": false,
+                        "num_workers": 4
+                    }
+                }
+            }
+        }
+    },
+
+    "models": {
+        "model": {
+            "module": ".model",
+            "type": "CRNN",
+            "kwargs": {
+                "dropout_rate": 0.05,
+                "nb_cnn2d_filt": [32, 64, 128],
+                "f_pool_size": [2, 2, 2],
+                "t_pool_size": [2, 2, 1],
+                "subject_classes": 40,
+                "sound_direction": 1,
+                "nb_rnn_layers": 2,
+                "rnn_size": 128,
+                "self_attn": "False",
+                "nb_heads": 4,
+                "nb_fnn_layers": 1,
+                "fnn_size": 128,
+
+                "parameterization": "sinc",
+                "non_linearity": "LeakyReLU"
+            }
+        }
+    },
+
+    "losses": {
+        "accdoa_loss": {
+            "type": "MSELoss"
+        },
+        "loc_loss": {
+            "type": "MSELoss"
+        },
+         "ide_loss": {
+            "type": "CrossEntropyLoss"
+        }
+    },
+
+    "metrics": {
+        "per_iteration": [],
+        "per_epoch": ["mae", "accuracy", "mae_d", "accuracy_l", "accuracy_l30"]
+    },
+
+    "optimizers": {
+        "model": {
+            "type": "Adam",
+            "kwargs": {
+                "lr": 0.0001
+            }
+        }
+    },
+
+    "lr_schedulers": {
+
+    },
+
+    "trainer": {
+        "module": ".trainer_mixup",
+        "type": "CRNNTrainerWithMixup",
+        "kwargs": {
+            "finetune": false,
+            "epochs": 60,
+            "len_epoch": null,
+            
+            "find_lr": false,
+            "max_lr": 0.001,
+            
+            "mixup": true,
+            "mixup_p": 0.5,
+
+            "save_period": 30,
+            "save_the_best": true,
+            "verbosity": 2,
+
+            "monitor": "min val_loss",
+            "early_stop": 3,
+
+            "tensorboard": true
+        }
+    }
+}
