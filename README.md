@@ -38,7 +38,7 @@ Each data recording session lasts around 220s, and 60s are put aside for a break
 Photo illustrations of the four data recording sessions are shown in Fig. 1.
 
 <p align="center">
-    <img src="figures/afpild_session_illustration.png" width="50%" /> <br/>
+    <img src="figures/afpild_session_illustration.png" width="70%" /> <br/>
     <em> 
     Figure 1: Photo illustrations of our data recording sessions. The first row to the fourth row represents the data collection session I to IV, concerning the coat and shoe covariates. The last row shows the gait point clouds corresponding to the fourth session.
     </em>
@@ -114,7 +114,7 @@ We provide the pre-trained [model weights](https://drive.google.com/file/d/1bS0w
 
 If the code runs fine, it should print out similar scores as:
 <p align="center">
-    <img src="figures/accil_results_table.png" width="50%" /> <br/>
+    <img src="figures/accil_results_table.png" width="80%" /> <br/>
     <em> 
     Figure 2: ACCDOA unified acoustic footstep-based person identification accuracies (%) and localization errors on AFPILD.
     </em>
