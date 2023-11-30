@@ -125,5 +125,5 @@ In this Codebase, we utilize code from the following source(s):
 
 * [wave-spec-fusion](https://github.com/denfed/wave-spec-fusion) 
 
-* [CRNN](https://github.com/sharathadavanne/seld-dcase2022n) 
+* [CRNN](https://github.com/sharathadavanne/seld-dcase2022) 
 
